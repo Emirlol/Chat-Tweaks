@@ -8,7 +8,9 @@
     "Lumiafk"
   ],
   "contact": {
-    "repo": "https://github.com/Emirlol/Chat-Tweaks"
+    "repo": "https://github.com/Emirlol/Chat-Tweaks",
+    "issues": "https://github.com/Emirlol/Chat-Tweaks/issues",
+    "homepage": "https://modrinth.com/project/chat-tweaks"
   },
   "license": "MIT",
   "environment": "client",
