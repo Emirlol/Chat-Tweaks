@@ -31,6 +31,8 @@ public class ChatHudMixin {
 	@Shadow
 	private MinecraftClient client;
 
+
+
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/OrderedText;III)I"))
 	private void chatTweaks$renderTimeStamps(
 			DrawContext drawContext,
@@ -46,13 +48,10 @@ public class ChatHudMixin {
 			@Local(name = "l") int l,
 			@Local(name = "r") int r,
 			@Local(name = "u") int u,
-			@Local(name = "y") int y,
-			@Local(name = "v") int v,
-			@Local(name = "f") float f,
 			@Local ChatHudLine.Visible visible) {
 		if (ConfigHandler.INSTANCE.getConfig().hudConfig.hideMessageIndicator) drawContext.getMatrices().translate(-4, 0f, 0f);
 		if (ConfigHandler.INSTANCE.getConfig().hudConfig.drawAlternatingRow &&
-				v % 2 == 0) {
+				u % 2 == 0) {
 			drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.alternatingRowColor.getRGB());
 		}
 
