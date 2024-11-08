@@ -3,27 +3,26 @@
   "id": "${mod_id}",
   "version": "${version}",
   "name": "${name}",
-  "description": "Self-descriptive.",
+  "description": "Various chat tweaks that change the look and feel of the chat, for better or for worse.",
   "authors": [
     "Lumiafk"
   ],
   "contact": {
-    "repo": "https://github.com/Emirlol/TemplateMod"
+    "repo": "https://github.com/Emirlol/Chat-Tweaks"
   },
-  "license": "All-Rights-Reserved",
+  "license": "MIT",
   "environment": "client",
   "entrypoints": {
     "client": [
       {
-        "value": "me.lumiafk.templatemod.TemplateMod",
-        "side": "client",
+        "value": "me.lumiafk.chattweaks.ChatTweaks",
         "adapter": "kotlin"
       }
     ],
-    "modmenu": [ "me.lumiafk.templatemod.modmenu.ModMenuApiImpl" ]
+    "modmenu": [ "me.lumiafk.chattweaks.modmenu.ModMenuApiImpl" ]
   },
   "mixins": [
-    "templatemod.mixins.json"
+    "chattweaks.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
@@ -32,5 +31,12 @@
     "fabric-language-kotlin": ">=${fabric_kotlin_version}",
     "yet_another_config_lib_v3": ">=${yacl_version}",
     "modmenu": ">=${modmenu_version}"
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/class_303\u0024class_7590": [
+        "me/lumiafk/chattweaks/injected/TimedVisibleChatHudLine"
+      ]
+    }
   }
 }

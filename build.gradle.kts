@@ -12,6 +12,9 @@ repositories {
 	maven("https://maven.terraformersmc.com/releases") {
 		name = "Terraformers"
 	}
+	maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1") {
+		name = "DevAuth"
+	}
 }
 
 val modName = property("mod_name") as String
@@ -29,6 +32,7 @@ dependencies {
 	modImplementation(libs.fabricLanguageKotlin)
 	modImplementation(libs.yacl)
 	modImplementation(libs.modMenu)
+	modRuntimeOnly(libs.devauth)
 }
 
 tasks {
@@ -46,13 +50,6 @@ tasks {
 		inputs.properties(props)
 		filesMatching("fabric.mod.json") {
 			expand(props)
-		}
-		filesMatching("assets/$modId/lang/*.json") {
-			expand(
-				mapOf(
-					"namespace" to modId
-				)
-			)
 		}
 	}
 	jar {

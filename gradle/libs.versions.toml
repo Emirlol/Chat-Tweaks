@@ -18,6 +18,8 @@ modPublish = "0.7.4" # https://github.com/modmuss50/mod-publish-plugin
 modMenu = "12.0.0-beta.1" # https://github.com/TerraformersMC/ModMenu/releases
 yacl = "3.6.1+1.21.2-fabric" # https://modrinth.com/mod/yacl/versions
 
+devauth = "1.2.1"
+
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 yarn = { module = "net.fabricmc:yarn", version.ref = "yarnMappings" }
@@ -26,6 +28,7 @@ fabricLanguageKotlin = { module = "net.fabricmc:fabric-language-kotlin", version
 fabricApi = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabricApi" }
 modMenu = { module = "com.terraformersmc:modmenu", version.ref = "modMenu" }
 yacl = { module = "dev.isxander:yet-another-config-lib", version.ref = "yacl" }
+devauth = { module = "me.djtheredstoner:DevAuth-fabric", version.ref = "devauth" }
 
 [bundles]
 
