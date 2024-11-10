@@ -15,5 +15,10 @@
   "chattweaks.config.hud.backgroundColor": "Chat Background Color",
   "chattweaks.config.hud.backgroundColor.tooltip": "The color of the whole chat background. Does not also change the background of the timestamps block, that is controlled by the timestamps background color option.",
   "chattweaks.config.hud.hideMessageIndicator": "Hide Message Indicator",
-  "chattweaks.config.hud.hideMessageIndicator.tooltip": "Hides the message indicator that shows up on servers with chat reporting schenanigans."
+  "chattweaks.config.hud.hideMessageIndicator.tooltip": "Hides the message indicator that shows up on servers with chat reporting schenanigans.",
+  "chattweaks.config.category.other": "Other",
+  "chattweaks.config.other.chatWidth": "Chat Input Character Width",
+  "chattweaks.config.other.chatWidth.tooltip[0]": "The width of the chat input box in characters. ",
+  "chattweaks.config.other.chatWidth.tooltip[1]": "While this allows you to make the chat input box take in more characters than the default of 256, the messages sent to the server will still be truncated to 256 characters.",
+  "chattweaks.config.other.chatWidth.tooltip[2]": "This is useful for other mods that work with chat inputs, such as chatcalc (which shows the result of a math expression written into the chat without the need to send the message)."
 }

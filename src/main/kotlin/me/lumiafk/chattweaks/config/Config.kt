@@ -1,6 +1,7 @@
 package me.lumiafk.chattweaks.config
 
 import me.lumiafk.chattweaks.config.configs.HudConfig
+import me.lumiafk.chattweaks.config.configs.OtherConfig
 import me.lumiafk.chattweaks.config.configs.TimeStampConfig
 
 class Config {
@@ -9,4 +10,7 @@ class Config {
 
 	@JvmField
 	var hudConfig = HudConfig()
+
+	@JvmField
+	var otherConfig = OtherConfig()
 }

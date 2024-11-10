@@ -98,5 +98,14 @@ object ConfigHandler {
 				controller = tickBox()
 			}
 		}
+		val other by categories.registering {
+			name("chattweaks.config.category.other".translatable)
+			val chatWidth by rootOptions.registering {
+				name("chattweaks.config.other.chatWidth".translatable)
+				tooltip("chattweaks.config.other.chatWidth.tooltip".translatable)
+				binding(config.otherConfig::chatWidth, default.otherConfig.chatWidth)
+				controller = numberField(0, Int.MAX_VALUE)
+			}
+		}
 	}.generateScreen(parent)
 }
