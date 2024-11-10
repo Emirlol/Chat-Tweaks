@@ -33,6 +33,7 @@ object ConfigHandler {
 		save(::save)
 		title("ChatTweaks".text)
 		val timestamps by categories.registering {
+			name("chattweaks.config.category.timestamps".translatable)
 			val enabled by rootOptions.registering {
 				name("chattweaks.config.timestamps.enabled".translatable)
 				binding(config.timeStampConfig::enabled, default.timeStampConfig.enabled)
@@ -73,6 +74,7 @@ object ConfigHandler {
 		}
 
 		val hud by categories.registering {
+			name("chattweaks.config.category.hud".translatable)
 			val drawAlternatingRow by rootOptions.registering {
 				name("chattweaks.config.hud.drawAlternatingRow".translatable)
 				tooltip("chattweaks.config.hud.drawAlternatingRow.tooltip".translatable)
