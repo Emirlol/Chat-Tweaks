@@ -31,7 +31,9 @@
     "fabric": "*",
     "minecraft": ">=${minecraft_version}",
     "fabric-language-kotlin": ">=${fabric_kotlin_version}",
-    "yet_another_config_lib_v3": ">=${yacl_version}",
+    "yet_another_config_lib_v3": ">=${yacl_version}"
+  },
+  "suggests": {
     "modmenu": ">=${modmenu_version}"
   },
   "custom": {
