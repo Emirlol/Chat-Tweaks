@@ -23,5 +23,11 @@
   "chattweaks.config.other.chatWidth": "Chat Input Character Width",
   "chattweaks.config.other.chatWidth.tooltip[0]": "The width of the chat input box in characters. ",
   "chattweaks.config.other.chatWidth.tooltip[1]": "While this allows the chat input box to take in more characters than the default of 256, the messages sent to the server will still be truncated to 256 characters.",
-  "chattweaks.config.other.chatWidth.tooltip[2]": "This is useful for other mods that work with chat inputs, such as chatcalc (which shows the result of a math expression written into the chat without the need to send the message)."
+  "chattweaks.config.other.chatWidth.tooltip[2]": "This is useful for other mods that work with chat inputs, such as chatcalc (which shows the result of a math expression written into the chat without the need to send the message).",
+  "chattweaks.config.category.scale": "Scale",
+  "chattweaks.config.scale.overrideHeight": "Override Minecraft's Chat Height Settings",
+  "chattweaks.config.scale.unfocusedHeight": "Unfocused Chat Height",
+  "chattweaks.config.scale.focusedHeight": "Focused Chat Height",
+  "chattweaks.config.scale.overrideWidth": "Override Minecraft's Chat Width Setting",
+  "chattweaks.config.scale.width": "Chat Width"
 }

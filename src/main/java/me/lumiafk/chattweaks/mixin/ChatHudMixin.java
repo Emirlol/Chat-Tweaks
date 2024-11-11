@@ -1,6 +1,7 @@
 package me.lumiafk.chattweaks.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -17,8 +18,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.time.Instant;
@@ -27,7 +27,7 @@ import java.time.ZoneId;
 import java.util.List;
 
 @Mixin(ChatHud.class)
-public class ChatHudMixin {
+public abstract class ChatHudMixin {
 	@Final
 	@Shadow
 	private List<ChatHudLine.Visible> visibleMessages;
@@ -35,6 +35,9 @@ public class ChatHudMixin {
 	@Final
 	@Shadow
 	private MinecraftClient client;
+
+	@Shadow
+	public abstract boolean isChatFocused();
 
 	@Unique
 	private ChatHudLine.Visible lastAdded = null;
@@ -115,5 +118,17 @@ public class ChatHudMixin {
 
 		lastAdded = original;
 		return original;
+	}
+
+	@WrapMethod(method = "getWidth()I")
+	private int chatTweaks$modifyWidth(Operation<Integer> original) {
+		return ConfigHandler.INSTANCE.getConfig().scaleConfig.overrideWidth ? ConfigHandler.INSTANCE.getConfig().scaleConfig.width : original.call();
+	}
+
+	@WrapMethod(method = "getHeight()I")
+	private int chatTweaks$modifyHeight(Operation<Integer> original) {
+		if (ConfigHandler.INSTANCE.getConfig().scaleConfig.overrideHeight)
+			return isChatFocused() ? ConfigHandler.INSTANCE.getConfig().scaleConfig.focusedHeight : ConfigHandler.INSTANCE.getConfig().scaleConfig.unfocusedHeight;
+		return original.call();
 	}
 }

@@ -1,5 +1,7 @@
 package me.lumiafk.chattweaks.config
 
+import dev.isxander.yacl3.api.Option
+import dev.isxander.yacl3.api.OptionEventListener
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder
 import dev.isxander.yacl3.dsl.*
@@ -144,6 +146,52 @@ object ConfigHandler {
 				}
 				binding(config.otherConfig::chatWidth, default.otherConfig.chatWidth)
 				controller = numberField(0, Int.MAX_VALUE)
+			}
+		}
+
+		val scale by categories.registering {
+			name("chattweaks.config.category.scale".translatable)
+			val overrideHeight by rootOptions.registering {
+				name("chattweaks.config.scale.overrideHeight".translatable)
+				binding(config.scaleConfig::overrideHeight, default.scaleConfig.overrideHeight)
+				controller = tickBox()
+				addListener { option, event ->
+					if (event == OptionEventListener.Event.STATE_CHANGE || event == OptionEventListener.Event.INITIAL) {
+						rootOptions.futureRef<Int>("focusedHeight").thenAccept {
+							it.setAvailable(option.pendingValue())
+						}
+						rootOptions.futureRef<Int>("unfocusedHeight").thenAccept {
+							it.setAvailable(option.pendingValue())
+						}
+					}
+				}
+			}
+			val focusedHeight: Option<Int> by rootOptions.registering {
+				name("chattweaks.config.scale.focusedHeight".translatable)
+				binding(config.scaleConfig::focusedHeight, default.scaleConfig.focusedHeight)
+				controller = numberField(20.toInt(), 2000) //Yacl is kinda stupid in that it provides multiple methods that are conflicting because of implicit conversions
+			}
+			val unfocusedHeight by rootOptions.registering {
+				name("chattweaks.config.scale.unfocusedHeight".translatable)
+				binding(config.scaleConfig::unfocusedHeight, default.scaleConfig.unfocusedHeight)
+				controller = numberField(20.toInt(), 2000)
+			}
+			val overrideWidth by rootOptions.registering {
+				name("chattweaks.config.scale.overrideWidth".translatable)
+				binding(config.scaleConfig::overrideWidth, default.scaleConfig.overrideWidth)
+				controller = tickBox()
+				addListener { option, event ->
+					if (event == OptionEventListener.Event.STATE_CHANGE || event == OptionEventListener.Event.INITIAL) {
+						rootOptions.futureRef<Int>("width").thenAccept {
+							it.setAvailable(option.pendingValue())
+						}
+					}
+				}
+			}
+			val width by rootOptions.registering {
+				name("chattweaks.config.scale.width".translatable)
+				binding(config.scaleConfig::width, default.scaleConfig.width)
+				controller = numberField(20.toInt(), 2000)
 			}
 		}
 	}.generateScreen(parent)
