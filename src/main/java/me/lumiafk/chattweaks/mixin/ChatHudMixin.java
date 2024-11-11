@@ -70,6 +70,9 @@ public class ChatHudMixin {
 		}
 	}
 
+	/**
+	 * This mixin cancels the drawing of the chat background, so that we can draw our own background for each line instead of having 1 big background for all lines.
+	 */
 	@WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V", ordinal = 0))
 	private void chatTweaks$wrapRender(DrawContext instance, int i, int j, int k, int l, int m, Operation<Void> original) {}
 
