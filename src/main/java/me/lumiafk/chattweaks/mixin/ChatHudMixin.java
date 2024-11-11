@@ -54,11 +54,9 @@ public class ChatHudMixin {
 			@Local(index = 23, ordinal = 12) int u,
 			@Local ChatHudLine.Visible visible) {
 		if (ConfigHandler.INSTANCE.getConfig().hudConfig.hideMessageIndicator) drawContext.getMatrices().translate(-4, 0f, 0f);
-		if (ConfigHandler.INSTANCE.getConfig().hudConfig.drawAlternatingRow) {
-			if (visible.isHighlighted()) {
-				drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.backgroundColor.getRGB());
-				drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.alternatingRowColor.getRGB());
-			} else drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.backgroundColor.getRGB());
+		drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.backgroundColor.getRGB());
+		if (ConfigHandler.INSTANCE.getConfig().hudConfig.drawAlternatingRow && visible.isHighlighted()) {
+			drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.alternatingRowColor.getRGB());
 		}
 
 		if (ConfigHandler.INSTANCE.getConfig().timeStampConfig.enabled && (
