@@ -5,6 +5,9 @@ import me.lumiafk.chattweaks.config.ConfigHandler
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.minecraft.client.option.KeyBinding
+import org.lwjgl.glfw.GLFW
 
 object ChatTweaks : ClientModInitializer {
 	override fun onInitializeClient() {
@@ -26,4 +29,5 @@ object ChatTweaks : ClientModInitializer {
 	}
 
 	const val NAMESPACE = "chattweaks"
+	val peekChatKeybinding: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.chattweaks.peekChat", GLFW.GLFW_KEY_V, "categories.chattweaks"))
 }

@@ -40,8 +40,6 @@ public abstract class ChatHudMixin {
 	@Shadow
 	public abstract boolean isChatFocused();
 
-	@Shadow public abstract void render(DrawContext drawContext, int i, int j, int k, boolean bl);
-
 	@Unique
 	private ChatHudLine.Visible lastAdded = null;
 
@@ -59,10 +57,10 @@ public abstract class ChatHudMixin {
 			@Local(argsOnly = true, index = 2, ordinal = 1) int mouseX,
 			@Local(argsOnly = true, index = 3, ordinal = 2) int mouseY,
 			@Local(index = 10, ordinal = 5) int n,
-			@Local(index = 12, ordinal = 7) int p,
+			@Local(index = 12, ordinal = 7) int p, //Offset from bottom, scaled by 1/scale
 			@Local(index = 6, ordinal = 3) int l,
-			@Local(index = 20, ordinal = 9) int r,
-			@Local(index = 23, ordinal = 12) int u,
+			@Local(index = 20, ordinal = 9) int r, //Line height
+			@Local(index = 23, ordinal = 12) int u, //Current line
 			@Local ChatHudLine.Visible visible) {
 		if (ConfigHandler.INSTANCE.getConfig().hudConfig.hideMessageIndicator) drawContext.getMatrices().translate(-4, 0f, 0f);
 		drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.backgroundColor.getRGB());
@@ -136,5 +134,10 @@ public abstract class ChatHudMixin {
 		if (ConfigHandler.INSTANCE.getConfig().scaleConfig.overrideHeight)
 			return isChatFocused() ? ConfigHandler.INSTANCE.getConfig().scaleConfig.focusedHeight : ConfigHandler.INSTANCE.getConfig().scaleConfig.unfocusedHeight;
 		return original.call();
+	}
+
+	@WrapMethod(method = "isChatFocused")
+	private boolean chatTweaks$wrapAddVisibleMessage(Operation<Boolean> original) {
+		return UtilKt.isChatFocused(false) || original.call();
 	}
 }

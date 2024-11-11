@@ -6,4 +6,8 @@ class OtherConfig {
 	@SerialEntry
 	@JvmField
 	var chatWidth = 1024
+
+	@SerialEntry
+	@JvmField
+	var chatAlwaysVisible = false
 }

@@ -143,6 +143,12 @@ object ConfigHandler {
 				binding(config.otherConfig::chatWidth, default.otherConfig.chatWidth)
 				controller = numberField(0, Int.MAX_VALUE)
 			}
+			val chatAlwaysVisible by rootOptions.registering {
+				name("chattweaks.config.other.chatAlwaysVisible".translatable)
+				descriptionBuilder { text("chattweaks.config.other.chatAlwaysVisible.tooltip".translatable) }
+				binding(config.otherConfig::chatAlwaysVisible, default.otherConfig.chatAlwaysVisible)
+				controller = tickBox()
+			}
 		}
 
 		val scale by categories.registering {

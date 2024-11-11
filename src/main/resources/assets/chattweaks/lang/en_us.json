@@ -1,4 +1,6 @@
 {
+  "key.chattweaks.peekChat": "Peek Chat",
+  "categories.chattweaks": "Chat Tweaks",
   "chattweaks.config.category.timestamps": "Timestamps",
   "chattweaks.config.timestamps.enabled": "Enable Timestamps",
   "chattweaks.config.timestamps.alwaysShow": "Always Shows Timestamps",
@@ -19,8 +21,10 @@
   "chattweaks.config.hud.hideMessageIndicator": "Hide Message Indicator",
   "chattweaks.config.hud.hideMessageIndicator.tooltip": "Hides the message indicator that shows up on servers with chat reporting shenanigans.",
   "chattweaks.config.category.other": "Other",
+  "chattweaks.config.other.chatAlwaysVisible": "Always Show Chat",
+  "chattweaks.config.other.chatAlwaysVisible.tooltip": "When this is turned on, the chat will always be visible, even when the chat screen is closed.",
   "chattweaks.config.other.chatWidth": "Chat Input Character Width",
-  "chattweaks.config.other.chatWidth.tooltip[0]": "The width of the chat input box in characters. ",
+  "chattweaks.config.other.chatWidth.tooltip[0]": "The width of the chat input box in characters.",
   "chattweaks.config.other.chatWidth.tooltip[1]": "While this allows the chat input box to take in more characters than the default of 256, the messages sent to the server will still be truncated to 256 characters.",
   "chattweaks.config.other.chatWidth.tooltip[2]": "This is useful for other mods that work with chat inputs, such as chatcalc (which shows the result of a math expression written into the chat without the need to send the message).",
   "chattweaks.config.category.scale": "Scale",

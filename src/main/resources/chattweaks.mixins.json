@@ -8,7 +8,8 @@
     "ChatHudLineVisibleMixin",
     "ChatHudMixin",
     "ChatMessagesMixin",
-    "ChatScreenMixin"
+    "ChatScreenMixin",
+    "InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1
