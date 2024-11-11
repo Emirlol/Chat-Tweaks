@@ -63,3 +63,23 @@ tasks {
 kotlin {
 	jvmToolchain(21)
 }
+
+publishMods {
+	file = tasks.remapJar.get().archiveFile
+	modLoaders.add("fabric")
+	type = STABLE
+	displayName = "$modName ${properties["mod_version"]} for Minecraft ${properties["minecraft_version"]}"
+	changelog = """
+		
+	""".trimIndent()
+	modrinth {
+		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+		projectId = "69pdUAIH"
+		minecraftVersions.addAll("1.21.2", "1.21.3")
+		requires("fabric-api")
+		requires("fabric-language-kotlin")
+		requires("yacl")
+		optional("modmenu")
+		featured = true
+	}
+}
