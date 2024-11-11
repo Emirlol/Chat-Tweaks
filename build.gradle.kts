@@ -42,7 +42,6 @@ tasks {
 			"name" to modName,
 			"mod_id" to modId,
 			"version" to version,
-			"minecraft_version" to libs.versions.minecraft.get(),
 			"loader_version" to libs.versions.fabricLoader.get(),
 			"fabric_kotlin_version" to libs.versions.fabricLanguageKotlin.get(),
 			"modmenu_version" to libs.versions.modMenu.get(),
