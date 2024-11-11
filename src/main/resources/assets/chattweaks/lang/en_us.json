@@ -9,7 +9,7 @@
   "chattweaks.config.timestamps.textColor": "Timestamp Text Color",
   "chattweaks.config.timestamps.backgroundColor": "Timestamp Background Color",
   "chattweaks.config.timestamps.format": "Timestamp Format",
-  "chattweaks.config.timestamps.format.tooltip": "The format of the timestamp. Refer to https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html for details.",
+  "chattweaks.config.timestamps.format.tooltip": "The format of the timestamp. Refer to %s for details.",
   "chattweaks.config.category.hud": "HUD",
   "chattweaks.config.hud.drawAlternatingRow": "Enable Alternate Message Highlight",
   "chattweaks.config.hud.drawAlternatingRow.tooltip": "With this option toggled on, every other message will have an additional background color to help distinguish different messages.",
@@ -22,6 +22,6 @@
   "chattweaks.config.category.other": "Other",
   "chattweaks.config.other.chatWidth": "Chat Input Character Width",
   "chattweaks.config.other.chatWidth.tooltip[0]": "The width of the chat input box in characters. ",
-  "chattweaks.config.other.chatWidth.tooltip[1]": "While this allows you to make the chat input box take in more characters than the default of 256, the messages sent to the server will still be truncated to 256 characters.",
+  "chattweaks.config.other.chatWidth.tooltip[1]": "While this allows the chat input box to take in more characters than the default of 256, the messages sent to the server will still be truncated to 256 characters.",
   "chattweaks.config.other.chatWidth.tooltip[2]": "This is useful for other mods that work with chat inputs, such as chatcalc (which shows the result of a math expression written into the chat without the need to send the message)."
 }

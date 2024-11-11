@@ -4,15 +4,20 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder
 import dev.isxander.yacl3.dsl.*
 import me.lumiafk.chattweaks.ChatTweaks
+import me.lumiafk.chattweaks.literal
 import me.lumiafk.chattweaks.text
 import me.lumiafk.chattweaks.translatable
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.gui.screen.Screen
+import net.minecraft.text.ClickEvent
+import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.format.DateTimeFormatter
 
 object ConfigHandler {
+	private const val FORMAT_DOCS = "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html"
 	private val HANDLER: ConfigClassHandler<Config> = ConfigClassHandler.createBuilder(Config::class.java).serializer {
 		GsonConfigSerializerBuilder.create(it)
 			.setPath(FabricLoader.getInstance().configDir.resolve("${ChatTweaks.NAMESPACE}/config.json"))
@@ -41,12 +46,19 @@ object ConfigHandler {
 			}
 			val alwaysShow by rootOptions.registering {
 				name("chattweaks.config.timestamps.alwaysShow".translatable)
+				descriptionBuilder { text("chattweaks.config.timestamps.alwaysShow.tooltip".translatable) }
 				binding(config.timeStampConfig::alwaysShow, default.timeStampConfig.alwaysShow)
 				controller = tickBox()
 			}
 			val groupingMillis by rootOptions.registering {
 				name("chattweaks.config.timestamps.groupingMillis".translatable)
-				tooltip("chattweaks.config.timestamps.groupingMillis.tooltip".translatable)
+				descriptionBuilder {
+					text(
+						"chattweaks.config.timestamps.groupingMillis.tooltip[0]".translatable,
+						"".text,
+						"chattweaks.config.timestamps.groupingMillis.tooltip[1]".translatable
+					)
+				}
 				binding(config.timeStampConfig::groupingMillis, default.timeStampConfig.groupingMillis)
 				controller = numberField(1L, 15000L)
 			}
@@ -62,7 +74,17 @@ object ConfigHandler {
 			}
 			val dateTimeFormat by rootOptions.registering {
 				name("chattweaks.config.timestamps.format".translatable)
-				tooltip("chattweaks.config.timestamps.format.tooltip".translatable)
+				descriptionBuilder {
+					text(
+						Text.translatable("chattweaks.config.timestamps.format.tooltip",
+							FORMAT_DOCS.literal.styled {
+								it.withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, FORMAT_DOCS))
+									.withColor(Formatting.BLUE)
+									.withUnderline(true)
+							}
+						)
+					)
+				}
 				binding(default.timeStampConfig.dateTimeFormat,
 					{ config.timeStampConfig.dateTimeFormat },
 					{
@@ -83,34 +105,43 @@ object ConfigHandler {
 			name("chattweaks.config.category.hud".translatable)
 			val drawAlternatingRow by rootOptions.registering {
 				name("chattweaks.config.hud.drawAlternatingRow".translatable)
-				tooltip("chattweaks.config.hud.drawAlternatingRow.tooltip".translatable)
+				descriptionBuilder { text("chattweaks.config.hud.drawAlternatingRow.tooltip".translatable) }
 				binding(config.hudConfig::drawAlternatingRow, default.hudConfig.drawAlternatingRow)
 				controller = tickBox()
 			}
 			val alternatingRowColor by rootOptions.registering {
 				name("chattweaks.config.hud.alternatingRowColor".translatable)
-				tooltip("chattweaks.config.hud.alternatingRowColor.tooltip".translatable)
+				descriptionBuilder { text("chattweaks.config.hud.alternatingRowColor.tooltip".translatable) }
 				binding(config.hudConfig::alternatingRowColor, default.hudConfig.alternatingRowColor)
 				controller = colorPicker(true)
 			}
 			val backgroundColor by rootOptions.registering {
 				name("chattweaks.config.hud.backgroundColor".translatable)
-				tooltip("chattweaks.config.hud.backgroundColor.tooltip".translatable)
+				descriptionBuilder { text("chattweaks.config.hud.backgroundColor.tooltip".translatable) }
 				binding(config.hudConfig::backgroundColor, default.hudConfig.backgroundColor)
 				controller = colorPicker(true)
 			}
 			val hideMessageIndicator by rootOptions.registering {
 				name("chattweaks.config.hud.hideMessageIndicator".translatable)
-				tooltip("chattweaks.config.hud.hideMessageIndicator.tooltip".translatable)
+				descriptionBuilder { text("chattweaks.config.hud.hideMessageIndicator.tooltip".translatable) }
 				binding(config.hudConfig::hideMessageIndicator, default.hudConfig.hideMessageIndicator)
 				controller = tickBox()
 			}
 		}
+
 		val other by categories.registering {
 			name("chattweaks.config.category.other".translatable)
 			val chatWidth by rootOptions.registering {
 				name("chattweaks.config.other.chatWidth".translatable)
-				tooltip("chattweaks.config.other.chatWidth.tooltip".translatable)
+				descriptionBuilder {
+					text(
+						"chattweaks.config.other.chatWidth.tooltip[0]".translatable,
+						"".text,
+						"chattweaks.config.other.chatWidth.tooltip[1]".translatable,
+						"".text,
+						"chattweaks.config.other.chatWidth.tooltip[2]".translatable
+					)
+				}
 				binding(config.otherConfig::chatWidth, default.otherConfig.chatWidth)
 				controller = numberField(0, Int.MAX_VALUE)
 			}
