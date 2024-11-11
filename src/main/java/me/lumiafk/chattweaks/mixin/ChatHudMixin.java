@@ -75,7 +75,6 @@ public class ChatHudMixin {
 				int length = client.textRenderer.getWidth(formatted);
 				drawContext.fill(n + 10, p - (r * u), n + 10 + length + 3, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().timeStampConfig.backgroundColor.getRGB());
 				drawContext.drawText(client.textRenderer, formatted, n + 12, p - (r * u) - 8, ConfigHandler.INSTANCE.getConfig().timeStampConfig.textColor.getRGB(), false);
-				lastRendered = visible;
 			} else drawContext.fill(n + 10, p - (r * u), n + 10 + 1, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().timeStampConfig.textColor.getRGB());
 		}
 	}
