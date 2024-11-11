@@ -67,7 +67,7 @@ publishMods {
 	file = tasks.remapJar.get().archiveFile
 	modLoaders.add("fabric")
 	type = STABLE
-	displayName = "$modName ${properties["mod_version"]} for Minecraft ${properties["minecraft_version"]}"
+	displayName = "$modName ${libs.versions.modVersion.get()} for Minecraft ${libs.versions.minecraft.get()}"
 	changelog = """
 		
 	""".trimIndent()
