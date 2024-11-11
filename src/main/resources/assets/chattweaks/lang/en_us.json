@@ -18,7 +18,7 @@
   "chattweaks.config.hud.backgroundColor": "Chat Background Color",
   "chattweaks.config.hud.backgroundColor.tooltip": "The color of the whole chat background. Does not also change the background of the timestamps block, that is controlled by the timestamps background color option.",
   "chattweaks.config.hud.hideMessageIndicator": "Hide Message Indicator",
-  "chattweaks.config.hud.hideMessageIndicator.tooltip": "Hides the message indicator that shows up on servers with chat reporting schenanigans.",
+  "chattweaks.config.hud.hideMessageIndicator.tooltip": "Hides the message indicator that shows up on servers with chat reporting shenanigans.",
   "chattweaks.config.category.other": "Other",
   "chattweaks.config.other.chatWidth": "Chat Input Character Width",
   "chattweaks.config.other.chatWidth.tooltip[0]": "The width of the chat input box in characters. ",
