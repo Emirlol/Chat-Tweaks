@@ -1,8 +1,10 @@
 package me.lumiafk.chattweaks.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import me.lumiafk.chattweaks.OriginedOrderedText;
 import me.lumiafk.chattweaks.UtilKt;
 import me.lumiafk.chattweaks.config.ConfigHandler;
 import net.minecraft.client.MinecraftClient;
@@ -13,6 +15,7 @@ import net.minecraft.client.gui.hud.MessageIndicator;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -31,7 +34,8 @@ public class ChatHudMixin {
 	@Shadow
 	private MinecraftClient client;
 
-
+	@Unique
+	private ChatHudLine.Visible lastMessage = null;
 
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/OrderedText;III)I"))
 	private void chatTweaks$renderTimeStamps(
@@ -41,18 +45,20 @@ public class ChatHudMixin {
 			int c,
 			boolean bl,
 			CallbackInfo ci,
-			@Local(argsOnly = true, ordinal = 1) int mouseX,
-			@Local(argsOnly = true, ordinal = 2) int mouseY,
-			@Local(name = "n") int n,
-			@Local(name = "p") int p,
-			@Local(name = "l") int l,
-			@Local(name = "r") int r,
-			@Local(name = "u") int u,
+			@Local(argsOnly = true, index = 2, ordinal = 1) int mouseX,
+			@Local(argsOnly = true, index = 3, ordinal = 2) int mouseY,
+			@Local(index = 10, ordinal = 5) int n,
+			@Local(index = 12, ordinal = 7) int p,
+			@Local(index = 6, ordinal = 3) int l,
+			@Local(index = 20, ordinal = 9) int r,
+			@Local(index = 23, ordinal = 12) int u,
 			@Local ChatHudLine.Visible visible) {
 		if (ConfigHandler.INSTANCE.getConfig().hudConfig.hideMessageIndicator) drawContext.getMatrices().translate(-4, 0f, 0f);
-		if (ConfigHandler.INSTANCE.getConfig().hudConfig.drawAlternatingRow &&
-				u % 2 == 0) {
-			drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.alternatingRowColor.getRGB());
+		if (ConfigHandler.INSTANCE.getConfig().hudConfig.drawAlternatingRow) {
+			if (visible.isHighlighted()) {
+				drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.backgroundColor.getRGB());
+				drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.alternatingRowColor.getRGB());
+			} else drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.backgroundColor.getRGB());
 		}
 
 		if (ConfigHandler.INSTANCE.getConfig().timeStampConfig.enabled && (
@@ -67,19 +73,21 @@ public class ChatHudMixin {
 	}
 
 	@WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V", ordinal = 0))
-	private void chatTweaks$wrapRender(DrawContext instance, int i, int j, int k, int l, int m, Operation<Void> original) {
-		if (ConfigHandler.INSTANCE.getConfig().hudConfig.hideMessageIndicator) {
-			i -= 4;
-			k -= 4;
-		}
-		int color = ConfigHandler.INSTANCE.getConfig().hudConfig.backgroundColor.getRGB();
-		//If no changes have been made, don't use the custom color as the custom color's alpha might be different from the user's chat background opacity setting in minecraft settings
-		if (color == ConfigHandler.INSTANCE.getDefault().hudConfig.backgroundColor.getRGB()) original.call(instance, i, j, k, l, m);
-		original.call(instance, i, j, k, l, color);
-	}
+	private void chatTweaks$wrapRender(DrawContext instance, int i, int j, int k, int l, int m, Operation<Void> original) {}
 
 	@WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHudLine$Visible;indicator()Lnet/minecraft/client/gui/hud/MessageIndicator;"))
 	private MessageIndicator chatTweaks$wrapRender(ChatHudLine.Visible instance, Operation<MessageIndicator> original) {
 		return ConfigHandler.INSTANCE.getConfig().hudConfig.hideMessageIndicator ? null : original.call(instance);
+	}
+
+	@ModifyExpressionValue(method = "addVisibleMessage", at = @At(value = "NEW", target = "(ILnet/minecraft/text/OrderedText;Lnet/minecraft/client/gui/hud/MessageIndicator;Z)Lnet/minecraft/client/gui/hud/ChatHudLine$Visible;"))
+	private ChatHudLine.Visible chatTweaks$wrapAddVisibleMessage(ChatHudLine.Visible original) {
+		if (lastMessage != null && lastMessage.comp_896() instanceof OriginedOrderedText lastOrderedText && original.comp_896() instanceof OriginedOrderedText originalOrderedText) {
+			if (lastOrderedText.getOriginHashCode() == originalOrderedText.getOriginHashCode()) original.setHighlighted(lastMessage.isHighlighted());
+			else original.setHighlighted(!lastMessage.isHighlighted());
+		}
+
+		lastMessage = original;
+		return original;
 	}
 }

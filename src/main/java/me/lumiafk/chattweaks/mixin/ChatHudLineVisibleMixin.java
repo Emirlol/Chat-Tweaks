@@ -14,6 +14,9 @@ import java.time.Instant;
 public class ChatHudLineVisibleMixin implements TimedVisibleChatHudLine {
 	@Unique
 	private Instant addedTime;
+	@Unique
+	private boolean highlighted;
+
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void chatTweaks$init(CallbackInfo ci) {
 		addedTime = Instant.now();
@@ -23,5 +26,17 @@ public class ChatHudLineVisibleMixin implements TimedVisibleChatHudLine {
 	@Override
 	public Instant getAddedTime() {
 		return addedTime;
+	}
+
+	@SuppressWarnings("AddedMixinMembersNamePattern")
+	@Override
+	public void setHighlighted(boolean highlighted) {
+		this.highlighted = highlighted;
+	}
+
+	@SuppressWarnings("AddedMixinMembersNamePattern")
+	@Override
+	public boolean isHighlighted() {
+		return highlighted;
 	}
 }
