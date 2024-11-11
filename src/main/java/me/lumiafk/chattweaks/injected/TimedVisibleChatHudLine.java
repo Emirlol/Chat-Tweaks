@@ -7,6 +7,12 @@ public interface TimedVisibleChatHudLine {
 		return null;
 	}
 
+	default void setShouldShowTime(boolean showTime) {}
+
+	default boolean shouldShowTime() {
+		return false;
+	}
+
 	default void setHighlighted(boolean highlighted) {
 	}
 

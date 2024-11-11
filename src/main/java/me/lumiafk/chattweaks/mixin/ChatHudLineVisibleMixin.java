@@ -10,10 +10,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.time.Instant;
 
+@SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(ChatHudLine.Visible.class)
 public class ChatHudLineVisibleMixin implements TimedVisibleChatHudLine {
 	@Unique
 	private Instant addedTime;
+	@Unique
+	private boolean shouldShowTime;
 	@Unique
 	private boolean highlighted;
 
@@ -22,19 +25,26 @@ public class ChatHudLineVisibleMixin implements TimedVisibleChatHudLine {
 		addedTime = Instant.now();
 	}
 
-	@SuppressWarnings("AddedMixinMembersNamePattern")
+	@Override
+	public void setShouldShowTime(boolean showTime) {
+		this.shouldShowTime = showTime;
+	}
+
+	@Override
+	public boolean shouldShowTime() {
+		return shouldShowTime;
+	}
+
 	@Override
 	public Instant getAddedTime() {
 		return addedTime;
 	}
 
-	@SuppressWarnings("AddedMixinMembersNamePattern")
 	@Override
 	public void setHighlighted(boolean highlighted) {
 		this.highlighted = highlighted;
 	}
 
-	@SuppressWarnings("AddedMixinMembersNamePattern")
 	@Override
 	public boolean isHighlighted() {
 		return highlighted;

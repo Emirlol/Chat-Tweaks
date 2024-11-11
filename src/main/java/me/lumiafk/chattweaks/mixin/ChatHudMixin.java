@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -35,7 +36,10 @@ public class ChatHudMixin {
 	private MinecraftClient client;
 
 	@Unique
-	private ChatHudLine.Visible lastMessage = null;
+	private ChatHudLine.Visible lastAdded = null;
+
+	@Unique
+	private Instant lastTime = null;
 
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/OrderedText;III)I"))
 	private void chatTweaks$renderTimeStamps(
@@ -63,10 +67,16 @@ public class ChatHudMixin {
 				ConfigHandler.INSTANCE.getConfig().timeStampConfig.alwaysShow ||
 						UtilKt.isPointIn(mouseX, mouseY, 0, p - (Math.min(visibleMessages.size(), l) * r), n + 12 - 4, p)
 		)) {
-			String formatted = ConfigHandler.INSTANCE.getConfig().timeStampConfig.dateTimeFormatter.format(LocalDateTime.ofInstant(visible.getAddedTime(), ZoneId.systemDefault()));
-			int length = client.textRenderer.getWidth(formatted);
-			drawContext.fill(n + 10, p - (r * u), n + 10 + length + 3, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().timeStampConfig.backgroundColor.getRGB());
-			drawContext.drawText(client.textRenderer, formatted, n + 12, p - (r * u) - 8, ConfigHandler.INSTANCE.getConfig().timeStampConfig.textColor.getRGB(), false);
+			if (visible.shouldShowTime()) {
+				Instant addedTime = visible.getAddedTime();
+				if (addedTime == null) return;
+
+				String formatted = ConfigHandler.INSTANCE.getConfig().timeStampConfig.dateTimeFormatter.format(LocalDateTime.ofInstant(addedTime, ZoneId.systemDefault()));
+				int length = client.textRenderer.getWidth(formatted);
+				drawContext.fill(n + 10, p - (r * u), n + 10 + length + 3, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().timeStampConfig.backgroundColor.getRGB());
+				drawContext.drawText(client.textRenderer, formatted, n + 12, p - (r * u) - 8, ConfigHandler.INSTANCE.getConfig().timeStampConfig.textColor.getRGB(), false);
+				lastRendered = visible;
+			} else drawContext.fill(n + 10, p - (r * u), n + 10 + 1, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().timeStampConfig.textColor.getRGB());
 		}
 	}
 
@@ -83,12 +93,22 @@ public class ChatHudMixin {
 
 	@ModifyExpressionValue(method = "addVisibleMessage", at = @At(value = "NEW", target = "(ILnet/minecraft/text/OrderedText;Lnet/minecraft/client/gui/hud/MessageIndicator;Z)Lnet/minecraft/client/gui/hud/ChatHudLine$Visible;"))
 	private ChatHudLine.Visible chatTweaks$wrapAddVisibleMessage(ChatHudLine.Visible original) {
-		if (lastMessage != null && lastMessage.comp_896() instanceof OriginedOrderedText lastOrderedText && original.comp_896() instanceof OriginedOrderedText originalOrderedText) {
-			if (lastOrderedText.getOriginHashCode() == originalOrderedText.getOriginHashCode()) original.setHighlighted(lastMessage.isHighlighted());
-			else original.setHighlighted(!lastMessage.isHighlighted());
+		if (lastAdded != null && lastAdded.comp_896() instanceof OriginedOrderedText lastOrderedText && original.comp_896() instanceof OriginedOrderedText originalOrderedText) {
+			if (lastOrderedText.getOriginHashCode() == originalOrderedText.getOriginHashCode()) original.setHighlighted(lastAdded.isHighlighted());
+			else original.setHighlighted(!lastAdded.isHighlighted());
+
+			//If 1000ms has passed since the last message was added, show the time
+			//If not, we'll group them up in the render method above
+			if (lastTime != null && lastTime.plusMillis(ConfigHandler.INSTANCE.getConfig().timeStampConfig.groupingMillis).isBefore(original.getAddedTime())) {
+				lastTime = original.getAddedTime();
+				original.setShouldShowTime(true);
+			}
+		} else {
+			lastTime = original.getAddedTime();
+			original.setShouldShowTime(true);
 		}
 
-		lastMessage = original;
+		lastAdded = original;
 		return original;
 	}
 }

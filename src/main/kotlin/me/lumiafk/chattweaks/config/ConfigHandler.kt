@@ -44,6 +44,12 @@ object ConfigHandler {
 				binding(config.timeStampConfig::alwaysShow, default.timeStampConfig.alwaysShow)
 				controller = tickBox()
 			}
+			val groupingMillis by rootOptions.registering {
+				name("chattweaks.config.timestamps.groupingMillis".translatable)
+				tooltip("chattweaks.config.timestamps.groupingMillis.tooltip".translatable)
+				binding(config.timeStampConfig::groupingMillis, default.timeStampConfig.groupingMillis)
+				controller = numberField(1L, 15000L)
+			}
 			val textColor by rootOptions.registering {
 				name("chattweaks.config.timestamps.textColor".translatable)
 				binding(config.timeStampConfig::textColor, default.timeStampConfig.textColor)

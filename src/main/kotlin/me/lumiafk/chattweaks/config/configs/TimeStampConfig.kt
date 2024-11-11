@@ -15,6 +15,10 @@ class TimeStampConfig {
 
 	@SerialEntry
 	@JvmField
+	var groupingMillis = 1000L
+
+	@SerialEntry
+	@JvmField
 	var textColor = Color(203, 166, 247, 255);
 
 	@SerialEntry
