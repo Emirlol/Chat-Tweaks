@@ -33,6 +33,7 @@ dependencies {
 	modImplementation(libs.yacl)
 	modImplementation(libs.modMenu)
 	modRuntimeOnly(libs.devauth)
+	compileOnly(libs.mcdevannotations)
 }
 
 tasks {

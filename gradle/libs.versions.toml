@@ -17,6 +17,7 @@ modPublish = "0.7.4" # https://github.com/modmuss50/mod-publish-plugin
 # Other dependencies
 modMenu = "12.0.0-beta.1" # https://github.com/TerraformersMC/ModMenu/releases
 yacl = "3.6.1+1.21.2-fabric" # https://modrinth.com/mod/yacl/versions
+mcdevannotations = "2.1.0" # https://github.com/minecraft-dev/annotations/releases
 
 devauth = "1.2.1"
 
@@ -29,6 +30,7 @@ fabricApi = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabr
 modMenu = { module = "com.terraformersmc:modmenu", version.ref = "modMenu" }
 yacl = { module = "dev.isxander:yet-another-config-lib", version.ref = "yacl" }
 devauth = { module = "me.djtheredstoner:DevAuth-fabric", version.ref = "devauth" }
+mcdevannotations = { module = "com.demonwav.mcdev:annotations", version.ref = "mcdevannotations" }
 
 [bundles]
 
