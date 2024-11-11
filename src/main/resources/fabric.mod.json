@@ -33,7 +33,7 @@
     "fabric-language-kotlin": ">=${fabric_kotlin_version}",
     "yet_another_config_lib_v3": ">=${yacl_version}"
   },
-  "suggests": {
+  "recommends": {
     "modmenu": ">=${modmenu_version}"
   },
   "custom": {
