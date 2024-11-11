@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatter
 
 object ConfigHandler {
 	private const val FORMAT_DOCS = "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html"
+
 	private val HANDLER: ConfigClassHandler<Config> = ConfigClassHandler.createBuilder(Config::class.java).serializer {
 		GsonConfigSerializerBuilder.create(it)
 			.setPath(FabricLoader.getInstance().configDir.resolve("${ChatTweaks.NAMESPACE}/config.json"))
