@@ -1,12 +1,6 @@
 package me.lumiafk.chattweaks.injected;
 
-import java.time.Instant;
-
-public interface TimedVisibleChatHudLine {
-	default Instant getAddedTime() {
-		return null;
-	}
-
+public interface CustomVisibleChatHudLine {
 	default void setShouldShowTime(boolean showTime) {}
 
 	default boolean shouldShowTime() {

@@ -4,6 +4,7 @@
   "package": "me.lumiafk.chattweaks.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "ChatHudLineMixin",
     "ChatHudLineVisibleMixin",
     "ChatHudMixin",
     "ChatMessagesMixin",

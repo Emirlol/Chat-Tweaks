@@ -1,29 +1,22 @@
 package me.lumiafk.chattweaks.mixin;
 
-import me.lumiafk.chattweaks.injected.TimedVisibleChatHudLine;
+import me.lumiafk.chattweaks.injected.CustomVisibleChatHudLine;
+import me.lumiafk.chattweaks.injected.TimedChatHudLine;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.time.Instant;
 
 @SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(ChatHudLine.Visible.class)
-public class ChatHudLineVisibleMixin implements TimedVisibleChatHudLine {
+public class ChatHudLineVisibleMixin implements TimedChatHudLine, CustomVisibleChatHudLine {
 	@Unique
 	private Instant addedTime;
 	@Unique
 	private boolean shouldShowTime;
 	@Unique
 	private boolean highlighted;
-
-	@Inject(method = "<init>", at = @At("TAIL"))
-	private void chatTweaks$init(CallbackInfo ci) {
-		addedTime = Instant.now();
-	}
 
 	@Override
 	public void setShouldShowTime(boolean showTime) {
@@ -33,6 +26,11 @@ public class ChatHudLineVisibleMixin implements TimedVisibleChatHudLine {
 	@Override
 	public boolean shouldShowTime() {
 		return shouldShowTime;
+	}
+
+	@Override
+	public void setAddedTime(Instant addedTime) {
+		this.addedTime = addedTime;
 	}
 
 	@Override

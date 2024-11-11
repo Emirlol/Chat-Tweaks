@@ -18,7 +18,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.time.Instant;
@@ -38,6 +39,8 @@ public abstract class ChatHudMixin {
 
 	@Shadow
 	public abstract boolean isChatFocused();
+
+	@Shadow public abstract void render(DrawContext drawContext, int i, int j, int k, boolean bl);
 
 	@Unique
 	private ChatHudLine.Visible lastAdded = null;
@@ -100,7 +103,10 @@ public abstract class ChatHudMixin {
 	}
 
 	@ModifyExpressionValue(method = "addVisibleMessage", at = @At(value = "NEW", target = "(ILnet/minecraft/text/OrderedText;Lnet/minecraft/client/gui/hud/MessageIndicator;Z)Lnet/minecraft/client/gui/hud/ChatHudLine$Visible;"))
-	private ChatHudLine.Visible chatTweaks$wrapAddVisibleMessage(ChatHudLine.Visible original) {
+	private ChatHudLine.Visible chatTweaks$wrapAddVisibleMessage(ChatHudLine.Visible original, @Local(argsOnly = true) ChatHudLine chatHudLine) {
+		if (chatHudLine.getAddedTime() == null) chatHudLine.setAddedTime(Instant.now());
+		original.setAddedTime(chatHudLine.getAddedTime());
+
 		if (lastAdded != null && lastAdded.comp_896() instanceof OriginedOrderedText lastOrderedText && original.comp_896() instanceof OriginedOrderedText originalOrderedText) {
 			if (lastOrderedText.getOriginHashCode() == originalOrderedText.getOriginHashCode()) original.setHighlighted(lastAdded.isHighlighted());
 			else original.setHighlighted(!lastAdded.isHighlighted());

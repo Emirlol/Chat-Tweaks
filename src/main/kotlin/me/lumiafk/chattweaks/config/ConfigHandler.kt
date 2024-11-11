@@ -2,13 +2,11 @@ package me.lumiafk.chattweaks.config
 
 import dev.isxander.yacl3.api.Option
 import dev.isxander.yacl3.api.OptionEventListener
+import dev.isxander.yacl3.api.StateManager
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder
 import dev.isxander.yacl3.dsl.*
-import me.lumiafk.chattweaks.ChatTweaks
-import me.lumiafk.chattweaks.literal
-import me.lumiafk.chattweaks.text
-import me.lumiafk.chattweaks.translatable
+import me.lumiafk.chattweaks.*
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.ClickEvent
@@ -54,15 +52,12 @@ object ConfigHandler {
 			}
 			val groupingMillis by rootOptions.registering {
 				name("chattweaks.config.timestamps.groupingMillis".translatable)
-				descriptionBuilder {
-					text(
-						"chattweaks.config.timestamps.groupingMillis.tooltip[0]".translatable,
-						"".text,
-						"chattweaks.config.timestamps.groupingMillis.tooltip[1]".translatable
-					)
+				descriptionBuilder { text("chattweaks.config.timestamps.groupingMillis.tooltip".translatable) }
+				stateManager(StateManager.createInstant(default.timeStampConfig.groupingMillis, { config.timeStampConfig.groupingMillis }, { config.timeStampConfig.groupingMillis = it }))
+				controller = slider(1L..15000L)
+				addListener { _, event ->
+					if (event == OptionEventListener.Event.STATE_CHANGE) client.inGameHud.chatHud.reset()
 				}
-				binding(config.timeStampConfig::groupingMillis, default.timeStampConfig.groupingMillis)
-				controller = numberField(1L, 15000L)
 			}
 			val textColor by rootOptions.registering {
 				name("chattweaks.config.timestamps.textColor".translatable)
@@ -153,7 +148,7 @@ object ConfigHandler {
 			name("chattweaks.config.category.scale".translatable)
 			val overrideHeight by rootOptions.registering {
 				name("chattweaks.config.scale.overrideHeight".translatable)
-				binding(config.scaleConfig::overrideHeight, default.scaleConfig.overrideHeight)
+				stateManager(StateManager.createInstant(default.scaleConfig.overrideHeight, { config.scaleConfig.overrideHeight }, { config.scaleConfig.overrideHeight = it }))
 				controller = tickBox()
 				addListener { option, event ->
 					if (event == OptionEventListener.Event.STATE_CHANGE || event == OptionEventListener.Event.INITIAL) {
@@ -168,30 +163,44 @@ object ConfigHandler {
 			}
 			val focusedHeight: Option<Int> by rootOptions.registering {
 				name("chattweaks.config.scale.focusedHeight".translatable)
-				binding(config.scaleConfig::focusedHeight, default.scaleConfig.focusedHeight)
-				controller = numberField(20.toInt(), 2000) //Yacl is kinda stupid in that it provides multiple methods that are conflicting because of implicit conversions
+				stateManager(StateManager.createInstant(default.scaleConfig.focusedHeight, { config.scaleConfig.focusedHeight }, { config.scaleConfig.focusedHeight = it }))
+				controller = slider(20..2000)
 			}
 			val unfocusedHeight by rootOptions.registering {
 				name("chattweaks.config.scale.unfocusedHeight".translatable)
-				binding(config.scaleConfig::unfocusedHeight, default.scaleConfig.unfocusedHeight)
-				controller = numberField(20.toInt(), 2000)
+				stateManager(StateManager.createInstant(default.scaleConfig.unfocusedHeight, { config.scaleConfig.unfocusedHeight }, { config.scaleConfig.unfocusedHeight = it }))
+				controller = slider(20..2000)
 			}
 			val overrideWidth by rootOptions.registering {
 				name("chattweaks.config.scale.overrideWidth".translatable)
-				binding(config.scaleConfig::overrideWidth, default.scaleConfig.overrideWidth)
 				controller = tickBox()
+				stateManager(StateManager.createInstant(default.scaleConfig.overrideWidth, { config.scaleConfig.overrideWidth }, { config.scaleConfig.overrideWidth = it }))
 				addListener { option, event ->
-					if (event == OptionEventListener.Event.STATE_CHANGE || event == OptionEventListener.Event.INITIAL) {
-						rootOptions.futureRef<Int>("width").thenAccept {
-							it.setAvailable(option.pendingValue())
+					when (event) {
+						OptionEventListener.Event.INITIAL -> {
+							rootOptions.futureRef<Int>("width").thenAccept {
+								it.setAvailable(option.pendingValue())
+							}
 						}
+						OptionEventListener.Event.STATE_CHANGE -> {
+							rootOptions.futureRef<Int>("width").thenAccept {
+								it.setAvailable(option.pendingValue())
+							}
+							client.inGameHud.chatHud.reset()
+						}
+						else -> {}
 					}
 				}
 			}
 			val width by rootOptions.registering {
 				name("chattweaks.config.scale.width".translatable)
-				binding(config.scaleConfig::width, default.scaleConfig.width)
-				controller = numberField(20.toInt(), 2000)
+				stateManager(StateManager.createInstant(default.scaleConfig.width, { config.scaleConfig.width }, { config.scaleConfig.width = it }))
+				controller = slider(20.. 2000)
+				addListener { _, event ->
+					if (event == OptionEventListener.Event.STATE_CHANGE) {
+						client.inGameHud.chatHud.reset()
+					}
+				}
 			}
 		}
 	}.generateScreen(parent)
