@@ -12,6 +12,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
+import net.minecraft.client.gui.screen.ChatScreen;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -63,10 +64,15 @@ public class ChatHudMixin {
 			drawContext.fill(-4, p - (r * u), n + 8, p - (r * (u + 1)), ConfigHandler.INSTANCE.getConfig().hudConfig.alternatingRowColor.getRGB());
 		}
 
-		if (ConfigHandler.INSTANCE.getConfig().timeStampConfig.enabled && (
-				ConfigHandler.INSTANCE.getConfig().timeStampConfig.alwaysShow ||
-						UtilKt.isPointIn(mouseX, mouseY, 0, p - (Math.min(visibleMessages.size(), l) * r), n + 12 - 4, p)
-		)) {
+		if (ConfigHandler.INSTANCE.getConfig().timeStampConfig.enabled &&
+				(
+						ConfigHandler.INSTANCE.getConfig().timeStampConfig.alwaysShow ||
+								(
+										UtilKt.isPointIn(mouseX, mouseY, 0, p - (Math.min(visibleMessages.size(), l) * r), n + 12 - 4, p)
+												&& MinecraftClient.getInstance().currentScreen instanceof ChatScreen
+								)
+				)
+		) {
 			if (visible.shouldShowTime()) {
 				Instant addedTime = visible.getAddedTime();
 				if (addedTime == null) return;
