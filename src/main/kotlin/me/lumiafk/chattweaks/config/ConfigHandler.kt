@@ -6,7 +6,12 @@ import dev.isxander.yacl3.api.StateManager
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder
 import dev.isxander.yacl3.dsl.*
-import me.lumiafk.chattweaks.*
+import me.lumiafk.chattweaks.ChatTweaks
+import me.lumiafk.chattweaks.chat.screens.ChatBoxesConfigScreen
+import me.lumiafk.chattweaks.util.client
+import me.lumiafk.chattweaks.util.literal
+import me.lumiafk.chattweaks.util.text
+import me.lumiafk.chattweaks.util.translatable
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.ClickEvent
@@ -148,6 +153,13 @@ object ConfigHandler {
 				descriptionBuilder { text("chattweaks.config.other.chatAlwaysVisible.tooltip".translatable) }
 				binding(config.otherConfig::chatAlwaysVisible, default.otherConfig.chatAlwaysVisible)
 				controller = tickBox()
+			}
+			val chatBoxes by rootOptions.registeringButton {
+				name(Text.literal("Chat boxes config"))
+				text(Text.literal("Click to open"))
+				action { screen, _ ->
+					client.setScreen(ChatBoxesConfigScreen(screen, config.otherConfig.chatBoxes))
+				}
 			}
 		}
 

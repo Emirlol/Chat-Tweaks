@@ -1,7 +1,7 @@
 package me.lumiafk.chattweaks.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import me.lumiafk.chattweaks.UtilKt;
+import me.lumiafk.chattweaks.util.ChatHudUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 public class InGameHudMixin {
 	@ModifyArg(method = "renderChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;render(Lnet/minecraft/client/gui/DrawContext;IIIZ)V"), index = 4)
 	private boolean renderChat(boolean original) {
-		return UtilKt.isChatFocused(original);
+		return ChatHudUtil.INSTANCE.isChatFocused(original);
 	}
 
 	@ModifyExpressionValue(method = "renderChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;isChatFocused()Z"))

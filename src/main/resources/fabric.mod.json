@@ -38,10 +38,6 @@
   },
   "custom": {
     "loom:injected_interfaces": {
-      "net/minecraft/class_303\u0024class_7590": [
-        "me/lumiafk/chattweaks/injected/TimedChatHudLine",
-        "me/lumiafk/chattweaks/injected/CustomVisibleChatHudLine"
-      ],
       "net/minecraft/class_303": [
         "me/lumiafk/chattweaks/injected/TimedChatHudLine"
       ]

@@ -5,9 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "ChatHudLineMixin",
-    "ChatHudLineVisibleMixin",
     "ChatHudMixin",
-    "ChatMessagesMixin",
     "ChatScreenMixin",
     "InGameHudMixin"
   ],

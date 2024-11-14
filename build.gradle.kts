@@ -25,7 +25,7 @@ version = "${libs.versions.modVersion.get()}+${libs.versions.minecraft.get()}"
 dependencies {
 	// To change the versions, see the gradle.properties file
 	minecraft(libs.minecraft)
-	mappings(libs.yarn)
+	mappings("net.fabricmc:yarn:${libs.versions.yarnMappings.get()}:v2")
 	modImplementation(libs.fabricLoader)
 
 	modImplementation(libs.fabricApi)
@@ -34,6 +34,8 @@ dependencies {
 	modImplementation(libs.modMenu)
 	modRuntimeOnly(libs.devauth)
 	compileOnly(libs.mcdevannotations)
+	implementation(libs.datafaker)
+	include(libs.datafaker)
 }
 
 tasks {
@@ -54,7 +56,7 @@ tasks {
 	}
 	jar {
 		from("LICENSE") {
-			rename { "${it}_${base.archivesName.get()}"}
+			rename { "${it}_${base.archivesName.get()}" }
 		}
 	}
 }
@@ -69,7 +71,10 @@ publishMods {
 	type = STABLE
 	displayName = "$modName ${libs.versions.modVersion.get()} for Minecraft ${libs.versions.minecraft.get()}"
 	changelog = """
-		
+		- Add options to change the chat's focused/unfocused height and width beyond the normal limits
+		- Add chat peeking (hold keybind to focus chat)
+		- Add the ability keep chat open at all times (chat peeking but permanent)
+		- Fix timestamps not being correct when grouping time frame is changed
 	""".trimIndent()
 	modrinth {
 		accessToken = providers.environmentVariable("MODRINTH_TOKEN")

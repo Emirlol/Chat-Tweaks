@@ -9,6 +9,8 @@ fabricApi = "0.107.0+1.21.3"
 
 fabricLanguageKotlin = "1.12.3+kotlin.2.0.21" # https://github.com/FabricMC/fabric-language-kotlin/releases
 
+datafaker = "2.4.1"
+
 # Plugins
 kotlin = "2.0.21" # Match this to the one above
 loom = "1.8-SNAPSHOT" # https://github.com/FabricMC/fabric-loom/releases
@@ -23,7 +25,6 @@ devauth = "1.2.1"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
-yarn = { module = "net.fabricmc:yarn", version.ref = "yarnMappings" }
 fabricLoader = { module = "net.fabricmc:fabric-loader", version.ref = "fabricLoader" }
 fabricLanguageKotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabricLanguageKotlin" }
 fabricApi = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabricApi" }
@@ -31,6 +32,7 @@ modMenu = { module = "com.terraformersmc:modmenu", version.ref = "modMenu" }
 yacl = { module = "dev.isxander:yet-another-config-lib", version.ref = "yacl" }
 devauth = { module = "me.djtheredstoner:DevAuth-fabric", version.ref = "devauth" }
 mcdevannotations = { module = "com.demonwav.mcdev:annotations", version.ref = "mcdevannotations" }
+datafaker = { module = "net.datafaker:datafaker", version.ref = "datafaker" }
 
 [bundles]
 
@@ -38,4 +40,4 @@ mcdevannotations = { module = "com.demonwav.mcdev:annotations", version.ref = "m
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 loom = { id = "fabric-loom", version.ref = "loom" }
-modPublish = { id = "me.modmuss50.mod-publish-plugin", version.ref = "modPublish"}
+modPublish = { id = "me.modmuss50.mod-publish-plugin", version.ref = "modPublish" }
