@@ -1,35 +1,31 @@
 package me.lumiafk.chattweaks.config.configs
 
-import dev.isxander.yacl3.config.v2.api.SerialEntry
+import dev.isxander.yacl3.config.v3.ConfigEntry
+import dev.isxander.yacl3.config.v3.value
+import me.lumiafk.chattweaks.config.ConfigProxy
 import me.lumiafk.chattweaks.util.ColorPalette
 import java.awt.Color
 import java.time.format.DateTimeFormatter
 
-class TimeStampConfig {
-	@SerialEntry
-	@JvmField
-	var enabled = true
+@Suppress("UnstableApiUsage")
+object TimeStampConfig : ConfigProxy {
+	val enabled by register(true)
 
-	@SerialEntry
-	@JvmField
-	var alwaysShow = false
+	val alwaysShow by register(false)
 
-	@SerialEntry
-	@JvmField
-	var groupingMillis = 1000L
+	val groupingMillis by register(1000L)
 
-	@SerialEntry
-	@JvmField
-	var textColor = ColorPalette.MAUVE;
+	val textColor by register(ColorPalette.MAUVE)
 
-	@SerialEntry
-	@JvmField
-	var backgroundColor = Color(0, 0, 0, 127); //Default background color for chat, with the default (configurable) background opacity of 50%
+	val backgroundColor by register(Color(0, 0, 0, 127))
 
-	@SerialEntry
-	@JvmField
-	var dateTimeFormat = "HH:mm:ss"
+	val dateTimeFormat: ConfigEntry<String> by register("HH:mm:ss")
 
-	@JvmField
-	var dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)!!
+	var dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat.value)
+
+	init {
+		dateTimeFormat.onSet {
+			dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat.value)
+		}
+	}
 }

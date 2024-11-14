@@ -6,9 +6,9 @@ import net.minecraft.text.OrderedText
 data class VisibleChatHudLine(
 	val chatHudLine: ChatHudLine,
 	var orderedText: OrderedText,
-	var endOfEntry: Boolean
+	var startOfEntry: Boolean
 ) {
-	// Syntax highlighting borks here due to lacking kotlin support by the mcdev plugin
+	// Syntax highlighting fails here due to lacking kotlin support by the mcdev plugin
 	// It's not an actual error, this is valid code
 	var originAddedTime
 		get() = chatHudLine.getAddedTime()

@@ -10,7 +10,7 @@ typealias PressAction = (ButtonWidget) -> Unit
 typealias NarrationSupplier = (() -> MutableText) -> MutableText
 
 @Environment(EnvType.CLIENT)
-open class ButtonWidget protected constructor(x: Int, y: Int, width: Int, height: Int, message: Text?, protected val pressAction: PressAction, protected val narrationSupplier: NarrationSupplier) : PressableWidget(x, y, width, height, message) {
+open class ButtonWidget protected constructor(x: Int, y: Int, width: Int, height: Int, message: Text?, protected val pressAction: PressAction, protected val narrationSupplier: NarrationSupplier, autoScaling: Boolean) : PressableWidget(x, y, width, height, message, autoScaling) {
 	override fun onPress() {
 		pressAction(this)
 	}
@@ -27,6 +27,7 @@ open class ButtonWidget protected constructor(x: Int, y: Int, width: Int, height
 		private var width = DEFAULT_WIDTH
 		private var height = DEFAULT_HEIGHT
 		private var narrationSupplier = DEFAULT_NARRATION_SUPPLIER
+		private var autoScaling = true
 
 		fun position(x: Int, y: Int): Builder {
 			this.x = x
@@ -45,9 +46,7 @@ open class ButtonWidget protected constructor(x: Int, y: Int, width: Int, height
 			return this
 		}
 
-		fun dimensions(x: Int, y: Int, width: Int, height: Int): Builder {
-			return position(x, y).size(width, height)
-		}
+		fun dimensions(x: Int, y: Int, width: Int, height: Int): Builder = position(x, y).size(width, height)
 
 		fun tooltip(tooltip: Tooltip): Builder {
 			this.tooltip = tooltip
@@ -59,8 +58,13 @@ open class ButtonWidget protected constructor(x: Int, y: Int, width: Int, height
 			return this
 		}
 
+		fun autoScaling(autoScaling: Boolean): Builder {
+			this.autoScaling = autoScaling
+			return this
+		}
+
 		fun build(): ButtonWidget {
-			val buttonWidget = ButtonWidget(this.x, this.y, this.width, this.height, this.message, this.onPress, this.narrationSupplier)
+			val buttonWidget = ButtonWidget(this.x, this.y, this.width, this.height, this.message, this.onPress, this.narrationSupplier, this.autoScaling)
 			buttonWidget.tooltip = tooltip
 			return buttonWidget
 		}

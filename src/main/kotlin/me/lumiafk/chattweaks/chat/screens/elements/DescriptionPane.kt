@@ -35,7 +35,7 @@ class DescriptionPane(
 			parent.close()
 		})
 		addClickableWidget(buttonWidget(Text.of("Undo"), doneButtonX, doneButtonY - BUTTON_HEIGHT - INNER_PADDING, doneButtonWidth) {
-			parent.close()
+			(client.currentScreen as? ChatBoxesConfigScreen)?.undo()
 		})
 		addDrawableChild(VerticalSeparator(x, y, height))
 	}

@@ -11,18 +11,17 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.input.KeyCodes
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.text.Text
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.ColorHelper
 import net.minecraft.util.math.MathHelper
 
 @Environment(EnvType.CLIENT)
-abstract class PressableWidget(x: Int, y: Int, width: Int, height: Int, text: Text?) : ClickablePosRenderedWidget(x, y, width, height, text) {
+abstract class PressableWidget(x: Int, y: Int, width: Int, height: Int, text: Text?, autoScaling: Boolean = true) : ClickablePosRenderedWidget(x, y, width, height, text, autoScaling) {
 	abstract fun onPress()
 
 	override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
 		val minecraftClient = MinecraftClient.getInstance()
 		context.drawGuiTexture(
-			{ texture: Identifier -> RenderLayer.getGuiTextured(texture) },
+			RenderLayer::getGuiTextured,
 			TEXTURES[active, this.isSelected],
 			this.x,
 			this.y,

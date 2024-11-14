@@ -34,6 +34,9 @@ dependencies {
 	modImplementation(libs.modMenu)
 	modRuntimeOnly(libs.devauth)
 	compileOnly(libs.mcdevannotations)
+
+	modImplementation(include("net.kyori:adventure-platform-fabric:6.1.0")!!) // for Minecraft 1.21.2-1.21.3
+	modCompileOnly("net.kyori:adventure-platform-mod-shared-fabric-repack:6.1.0")
 	implementation(libs.datafaker)
 	include(libs.datafaker)
 }
@@ -58,6 +61,9 @@ tasks {
 		from("LICENSE") {
 			rename { "${it}_${base.archivesName.get()}" }
 		}
+	}
+	compileKotlin {
+		compilerOptions.freeCompilerArgs.add("-Xcontext-receivers")
 	}
 }
 

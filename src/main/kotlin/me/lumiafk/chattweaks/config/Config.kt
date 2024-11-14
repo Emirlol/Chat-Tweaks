@@ -2,19 +2,16 @@ package me.lumiafk.chattweaks.config
 
 import me.lumiafk.chattweaks.config.configs.HudConfig
 import me.lumiafk.chattweaks.config.configs.OtherConfig
-import me.lumiafk.chattweaks.config.configs.ScaleConfig
 import me.lumiafk.chattweaks.config.configs.TimeStampConfig
 
-class Config {
-	@JvmField
-	var timeStampConfig = TimeStampConfig()
+val config = Config
 
+object Config {
 	@JvmField
-	var hudConfig = HudConfig()
-
+	var timeStampConfig = TimeStampConfig
 	@JvmField
-	var otherConfig = OtherConfig()
-
+	var hudConfig = HudConfig
 	@JvmField
-	var scaleConfig = ScaleConfig()
+	var otherConfig = OtherConfig
 }
+

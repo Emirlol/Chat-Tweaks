@@ -32,5 +32,6 @@
   "chattweaks.config.scale.unfocusedHeight": "Unfocused Chat Height",
   "chattweaks.config.scale.focusedHeight": "Focused Chat Height",
   "chattweaks.config.scale.overrideWidth": "Override Minecraft's Chat Width Setting",
-  "chattweaks.config.scale.width": "Chat Width"
+  "chattweaks.config.scale.width": "Chat Width",
+  "chattweaks.config.category.chatboxes": "Chat Boxes"
 }

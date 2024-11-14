@@ -1,6 +1,7 @@
 package me.lumiafk.chattweaks
 
 import com.mojang.brigadier.Command
+import me.lumiafk.chattweaks.config.Config
 import me.lumiafk.chattweaks.config.ConfigHandler
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
@@ -11,7 +12,9 @@ import org.lwjgl.glfw.GLFW
 
 object ChatTweaks : ClientModInitializer {
 	override fun onInitializeClient() {
-		check(ConfigHandler.load()) { "Failed to load config." }
+		Config // Initialize config
+		@Suppress("UnstableApiUsage")
+		ConfigHandler.load()
 		ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
 			dispatcher.register(
 				literal(NAMESPACE)

@@ -21,14 +21,15 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.StringHelper
 import net.minecraft.util.Util
 import net.minecraft.util.math.MathHelper
+import java.util.function.Consumer
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
 @Environment(EnvType.CLIENT)
-open class TextFieldWidget(private val textRenderer: TextRenderer?, x: Int, y: Int, width: Int, height: Int, copyFrom: TextFieldWidget?, text: Text?) : ClickablePosRenderedWidget(x, y, width, height, text) {
+open class TextFieldWidget(private val textRenderer: TextRenderer?, x: Int, y: Int, width: Int, height: Int, copyFrom: TextFieldWidget?, text: Text?, autoScaling: Boolean = true) : ClickablePosRenderedWidget(x, y, width, height, text, autoScaling) {
 	private var text = ""
-	var maxLength = 32
+	var maxLength = 256
 		set(maxLength) {
 			field = maxLength
 			if (text.length > maxLength) {
@@ -53,7 +54,9 @@ open class TextFieldWidget(private val textRenderer: TextRenderer?, x: Int, y: I
 	private var editableColor = DEFAULT_EDITABLE_COLOR
 	private var uneditableColor = 7368816
 	var suggestion: String? = null
-	var changedListener: ((String) -> Unit)? = null
+
+	var changedListener: Consumer<String>? = null
+
 	var textPredicate = { obj: String? -> obj != null }
 	var renderTextProvider = { string: String, _: Int -> OrderedText.styledForwardsVisitedString(string, Style.EMPTY) }
 	var placeholder: Text? = null
@@ -65,7 +68,7 @@ open class TextFieldWidget(private val textRenderer: TextRenderer?, x: Int, y: I
 
 	init {
 		if (copyFrom != null) {
-			this.setText(copyFrom.getText())
+			this.setText(copyFrom.text)
 		}
 	}
 
@@ -86,10 +89,6 @@ open class TextFieldWidget(private val textRenderer: TextRenderer?, x: Int, y: I
 			this.setSelectionEnd(this.cursor)
 			if (notifyListener) this.onChanged(text)
 		}
-	}
-
-	fun getText(): String {
-		return this.text
 	}
 
 	val selectedText: String
@@ -126,7 +125,7 @@ open class TextFieldWidget(private val textRenderer: TextRenderer?, x: Int, y: I
 	}
 
 	private fun onChanged(newText: String) {
-		changedListener?.invoke(newText)
+		changedListener?.accept(newText)
 	}
 
 	private fun erase(offset: Int) {
@@ -211,6 +210,10 @@ open class TextFieldWidget(private val textRenderer: TextRenderer?, x: Int, y: I
 		this.y = y
 		this.width = width
 		this.height = height
+		if (!autoScaled) {
+			this.autoScaled = true
+			updateFirstCharacterIndex(cursor)
+		}
 		this.render(context, mouseX, mouseY, delta)
 	}
 
@@ -312,7 +315,7 @@ open class TextFieldWidget(private val textRenderer: TextRenderer?, x: Int, y: I
 		if (this.visible) {
 			if (this.drawsBackground) {
 				val identifier = TEXTURES[this.isNarratable, this.isFocused]
-				context.drawGuiTexture({ texture: Identifier? -> RenderLayer.getGuiTextured(texture) }, identifier, this.x, this.y, this.getWidth(), this.getHeight())
+				context.drawGuiTexture(RenderLayer::getGuiTextured, identifier, this.x, this.y, this.getWidth(), this.getHeight())
 			}
 
 			val i = if (this.isEditable) this.editableColor else this.uneditableColor
@@ -452,9 +455,6 @@ open class TextFieldWidget(private val textRenderer: TextRenderer?, x: Int, y: I
 		private val TEXTURES = ButtonTextures(
 			Identifier.ofVanilla("widget/text_field"), Identifier.ofVanilla("widget/text_field_highlighted")
 		)
-		const val field_32194: Int = -1
-		const val field_32195: Int = 1
-		private const val field_32197 = 1
 		private const val VERTICAL_CURSOR_COLOR = -3092272
 		private const val HORIZONTAL_CURSOR = "_"
 		const val DEFAULT_EDITABLE_COLOR: Int = 14737632
