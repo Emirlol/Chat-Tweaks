@@ -7,7 +7,6 @@ import me.lumiafk.chattweaks.util.ColorPalette
 import me.lumiafk.chattweaks.util.ColorUtil.multiplyOpacity
 import me.lumiafk.chattweaks.util.VisibleChatHudLine
 import me.lumiafk.chattweaks.util.client
-import me.lumiafk.chattweaks.util.isPointIn
 import net.datafaker.Faker
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.Drawable
@@ -36,7 +35,7 @@ class ChatBoxWidget(chatBox: ChatBox) : ChatBox(chatBox.name, null as Pattern?, 
 
 	init {
 		val max = getMaxVisibleLineCount()
-		while (visibleMessages.size < 20) {
+		while (visibleMessages.size < max) {
 			addDummyMessage(faker.lorem().sentence())
 		}
 	}
@@ -46,11 +45,11 @@ class ChatBoxWidget(chatBox: ChatBox) : ChatBox(chatBox.name, null as Pattern?, 
 		return true
 	}
 
-	fun addDummyMessage(string: String) = addVisibleMessage(ChatHudLine(0, Text.of(string), null, null), focused)
-
 	override fun isMouseOver(mouseX: Double, mouseY: Double): Boolean {
-		return isPointIn(mouseX.toInt(), mouseY.toInt(), data.x, client.window.scaledHeight - data.y - maxHeight, data.x + data.width, client.window.scaledHeight - data.y)
+		return super<ChatBox>.isMouseOver(mouseX, mouseY)
 	}
+
+	fun addDummyMessage(string: String) = addVisibleMessage(ChatHudLine(0, Text.of(string), null, null), focused)
 
 	override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
 		render(context, delta, 0, mouseX, mouseY, focused)

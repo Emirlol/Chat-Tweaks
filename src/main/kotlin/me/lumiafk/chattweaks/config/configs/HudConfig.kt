@@ -15,8 +15,4 @@ class HudConfig {
 	@SerialEntry
 	@JvmField
 	var backgroundColor = Color(0, 0, 0, 127)
-
-	@SerialEntry
-	@JvmField
-	var hideMessageIndicator = true
 }

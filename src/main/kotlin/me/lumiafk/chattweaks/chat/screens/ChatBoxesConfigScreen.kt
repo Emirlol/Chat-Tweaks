@@ -17,7 +17,6 @@ class ChatBoxesConfigScreen(private val parent: Screen?, private var chatBoxes: 
 		chatBoxes.map(ChatBox::clone).also { chatBoxesCloned = it as MutableList<ChatBox> }
 	}
 
-	//This one is called on each window move/resize tick, so this can't be used to actually initialize the data, or we'd be reading from disk every frame
 	override fun init() {
 		addDrawable(Background(0, 0, width, height))
 

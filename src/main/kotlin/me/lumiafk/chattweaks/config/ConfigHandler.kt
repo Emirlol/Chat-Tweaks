@@ -124,12 +124,6 @@ object ConfigHandler {
 				binding(config.hudConfig::backgroundColor, default.hudConfig.backgroundColor)
 				controller = colorPicker(true)
 			}
-			val hideMessageIndicator by rootOptions.registering {
-				name("chattweaks.config.hud.hideMessageIndicator".translatable)
-				descriptionBuilder { text("chattweaks.config.hud.hideMessageIndicator.tooltip".translatable) }
-				binding(config.hudConfig::hideMessageIndicator, default.hudConfig.hideMessageIndicator)
-				controller = tickBox()
-			}
 		}
 
 		val other by categories.registering {

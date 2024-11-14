@@ -13,9 +13,12 @@ import net.minecraft.util.profiler.Profilers;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(ChatHud.class)
 public abstract class ChatHudMixin {
@@ -26,6 +29,13 @@ public abstract class ChatHudMixin {
 	@Shadow
 	public abstract boolean isChatFocused();
 
+	@Unique
+	public boolean previousFocused = false;
+
+	@Shadow
+	@Final
+	private List<ChatHudLine.Visible> visibleMessages;
+
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;isChatHidden()Z", shift = At.Shift.AFTER), cancellable = true)
 	private void chatTweaks$render(DrawContext context, int currentTick, int mouseX, int mouseY, boolean focused, CallbackInfo ci) {
 		var profiler = Profilers.get();
@@ -33,35 +43,13 @@ public abstract class ChatHudMixin {
 		var chatBoxes = ConfigHandler.INSTANCE.getConfig().otherConfig.chatBoxes;
 		var tickDelta = client.getRenderTickCounter().getTickDelta(true);
 		for (var chatBox : chatBoxes) {
+			if (previousFocused != focused) chatBox.onFocusChange(focused);
 			chatBox.render(context, tickDelta, currentTick, mouseX, mouseY, focused);
 		}
 		profiler.pop();
+		previousFocused = focused;
 		ci.cancel();
 	}
-
-//	@ModifyExpressionValue(method = "addVisibleMessage", at = @At(value = "NEW", target = "(ILnet/minecraft/text/OrderedText;Lnet/minecraft/client/gui/hud/MessageIndicator;Z)Lnet/minecraft/client/gui/hud/ChatHudLine$Visible;"))
-//	private ChatHudLine.Visible chatTweaks$wrapAddVisibleMessage(ChatHudLine.Visible original, @Local(argsOnly = true) ChatHudLine chatHudLine) {
-//		if (chatHudLine.getAddedTime() == null) chatHudLine.setAddedTime(Instant.now());
-//		original.setAddedTime(chatHudLine.getAddedTime());
-//
-//		if (lastAdded != null && lastAdded.content() instanceof OriginedOrderedText lastOrderedText && original.content() instanceof OriginedOrderedText originalOrderedText) {
-//			if (lastOrderedText.getOriginHashCode() == originalOrderedText.getOriginHashCode()) original.setHighlighted(lastAdded.isHighlighted());
-//			else original.setHighlighted(!lastAdded.isHighlighted());
-//
-//			//If 1000ms has passed since the last message was added, show the time
-//			//If not, we'll group them up in the render method above
-//			if (lastTime != null && lastTime.plusMillis(ConfigHandler.INSTANCE.getConfig().timeStampConfig.groupingMillis).isBefore(original.getAddedTime())) {
-//				lastTime = original.getAddedTime();
-//				original.setShouldShowTime(true);
-//			}
-//		} else {
-//			lastTime = original.getAddedTime();
-//			original.setShouldShowTime(true);
-//		}
-//
-//		lastAdded = original;
-//		return original;
-//	}
 
 	@WrapMethod(method = "addVisibleMessage")
 	private void chatTweaks$addVisibleMessage(ChatHudLine message, Operation<Void> original) {
