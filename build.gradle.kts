@@ -35,8 +35,8 @@ dependencies {
 	modRuntimeOnly(libs.devauth)
 	compileOnly(libs.mcdevannotations)
 
-	modImplementation(include("net.kyori:adventure-platform-fabric:6.1.0")!!) // for Minecraft 1.21.2-1.21.3
-	modCompileOnly("net.kyori:adventure-platform-mod-shared-fabric-repack:6.1.0")
+	modImplementation(include("net.kyori:adventure-platform-fabric:6.2.0")!!)
+	modCompileOnly(libs.adventure)
 	implementation(libs.datafaker)
 	include(libs.datafaker)
 }
@@ -63,6 +63,7 @@ tasks {
 		}
 	}
 	compileKotlin {
+		// Yes, I'm using deprecated features, and you can't stop me.
 		compilerOptions.freeCompilerArgs.add("-Xcontext-receivers")
 	}
 }
@@ -74,18 +75,18 @@ kotlin {
 publishMods {
 	file = tasks.remapJar.get().archiveFile
 	modLoaders.add("fabric")
-	type = STABLE
+	type = ALPHA
 	displayName = "$modName ${libs.versions.modVersion.get()} for Minecraft ${libs.versions.minecraft.get()}"
 	changelog = """
-		- Add options to change the chat's focused/unfocused height and width beyond the normal limits
-		- Add chat peeking (hold keybind to focus chat)
-		- Add the ability keep chat open at all times (chat peeking but permanent)
-		- Fix timestamps not being correct when grouping time frame is changed
+		This is a big revamp of the mod. It adds a lot of new features, regarding the use of multiple chat boxes and chat transformers.
+		Chat transformers modify the chat message in some way before it is displayed, and they can be chained. There are only filters and replacers for now.
+		This is by no means complete, it's in a very early stage, but it has reached a stage where it can be used if you know how to deal with it.
+		Please report any issues you find, and I'll try to fix them as soon as possible.
 	""".trimIndent()
 	modrinth {
 		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
 		projectId = "69pdUAIH"
-		minecraftVersions.addAll("1.21.2", "1.21.3")
+		minecraftVersions.addAll("1.21.4")
 		requires("fabric-api")
 		requires("fabric-language-kotlin")
 		requires("yacl")

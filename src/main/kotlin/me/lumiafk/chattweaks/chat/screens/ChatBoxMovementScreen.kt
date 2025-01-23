@@ -4,11 +4,12 @@ import me.lumiafk.chattweaks.chat.ChatBox
 import me.lumiafk.chattweaks.chat.screens.elements.Background
 import me.lumiafk.chattweaks.chat.screens.elements.ChatBoxWidget
 import me.lumiafk.chattweaks.chat.screens.elements.TextWidget
+import me.lumiafk.chattweaks.util.literal
+import me.lumiafk.chattweaks.util.text
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 
-class ChatBoxMovementScreen(val parent: Screen?, chatBox: ChatBox, otherChatBoxes: List<ChatBox>) : Screen(Text.of("Chat box movement")) {
+class ChatBoxMovementScreen(val parent: Screen?, chatBox: ChatBox, otherChatBoxes: List<ChatBox>) : Screen("Chat box movement".text) {
 	val chatBoxOpacity = chatBox.data.opacity
 	val indexBasedChatBoxOpacityList = otherChatBoxes.map { it.data.opacity }
 	val chatBoxWidget = ChatBoxWidget(chatBox.apply { data.opacity = 1f }, true)
@@ -20,7 +21,7 @@ class ChatBoxMovementScreen(val parent: Screen?, chatBox: ChatBox, otherChatBoxe
 		if (client?.player == null) addDrawable(Background(0, 0, width, height))
 		otherChatBoxesWidgets.forEach(::addDrawable)
 		addDrawableChild(chatBoxWidget)
-		addDrawable(TextWidget(Text.literal("Right click to change between focused & unfocused chat height").formatted(Formatting.DARK_GRAY)))
+		addDrawable(TextWidget("Right click to change between focused & unfocused chat height".literal(Formatting.DARK_GRAY)))
 		children().filterIsInstance<Initializable>().forEach(Initializable::init)
 	}
 

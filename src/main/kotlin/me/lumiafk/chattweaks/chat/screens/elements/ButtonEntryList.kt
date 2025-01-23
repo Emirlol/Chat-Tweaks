@@ -29,7 +29,7 @@ class ButtonEntryList(y: Int, width: Int, height: Int, val chatBoxes: MutableLis
 
 	override fun getRowWidth(): Int = width
 	override fun getRowLeft(): Int = this.x
-	override fun getRowTop(index: Int): Int = this.y - scrollAmount.toInt() + index * this.itemHeight
+	override fun getRowTop(index: Int): Int = this.y - scrollY.toInt() + index * this.itemHeight
 
 	/*no-op*/
 	override fun drawMenuListBackground(context: DrawContext) {}

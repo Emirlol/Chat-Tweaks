@@ -1,28 +1,28 @@
 [versions]
-modVersion = "1.2.0"
+modVersion = "2.0.0-alpha.1"
 
-# Required stuff, https://modmuss50.me/fabric.html
-minecraft = "1.21.3"
-yarnMappings = "1.21.3+build.2"
-fabricLoader = "0.16.9"
-fabricApi = "0.107.0+1.21.3"
+# Required stuff, https://fabricmc.net/develop/
+minecraft = "1.21.4"
+yarnMappings = "1.21.4+build.8"
+fabricLoader = "0.16.10"
+fabricApi = "0.115.0+1.21.4"
 
-fabricLanguageKotlin = "1.12.3+kotlin.2.0.21" # https://github.com/FabricMC/fabric-language-kotlin/releases
+fabricLanguageKotlin = "1.13.0+kotlin.2.1.0" # https://github.com/FabricMC/fabric-language-kotlin/releases
 
-datafaker = "2.4.1"
+datafaker = "2.4.2" # https://github.com/datafaker-net/datafaker/releases
 
 # Plugins
-kotlin = "2.0.21" # Match this to the one above
-loom = "1.8-SNAPSHOT" # https://github.com/FabricMC/fabric-loom/releases
-modPublish = "0.7.4" # https://github.com/modmuss50/mod-publish-plugin
+kotlin = "2.1.0" # Match this to the one above
+loom = "1.9-SNAPSHOT" # https://github.com/FabricMC/fabric-loom/releases
+modPublish = "0.8.3" # https://github.com/modmuss50/mod-publish-plugin
 
 # Other dependencies
-modMenu = "12.0.0-beta.1" # https://github.com/TerraformersMC/ModMenu/releases
-yacl = "3.6.1+1.21.2-fabric" # https://modrinth.com/mod/yacl/versions
+modMenu = "13.0.1" # https://github.com/TerraformersMC/ModMenu/releases
+yacl = "3.6.2+1.21.4-fabric" # https://modrinth.com/mod/yacl/versions
 mcdevannotations = "2.1.0" # https://github.com/minecraft-dev/annotations/releases
-adventure = "6.1.0" #https://github.com/KyoriPowered/adventure-platform-mod
+adventure = "6.2.0" #https://github.com/KyoriPowered/adventure-platform-mod
 
-devauth = "1.2.1"
+devauth = "1.2.1" # https://github.com/DJtheRedstoner/DevAuth/releases
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }

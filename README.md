@@ -1,0 +1,21 @@
+# Todo
+
+- [ ] Revamp config for other options
+  - Some options have no usage
+  - Some options would do better as chatbox-specific settings
+  - The `stripFormatting` option has no toggle button
+- [ ] Add support for the `stripFormatting` option in replacers 
+- [ ] Fix resizing the window on some screens breaking the config screen
+  - Should be fixed by using the `Initializable` interface properly and splitting the logic
+- [ ] Add descriptions for stuff
+- [ ] Make the description pane functional
+- [ ] Transition into using translatable strings instead of hardcoding stuff everywhere
+- [ ] Add a confirmation prompt to the config screen when leaving without saving
+- [ ] And maybe rethink the config save mechanisms for the different screens so that they are more intuitive.
+- [ ] Actually test various transformation chains and see if they work because I have only used like 2 of them so far
+- [ ] Add multiple save profiles and keybindings to switch between them
+  - Maybe even add an API For this to support auto switching based on context from other mods, such as skyblocker
+- [ ] Refactor the entry lists to separate different types of entries into different classes like the `TransformerEntryList`
+- [ ] Add more replacers/filters?
+- [ ] Figure out the correct dependency notations for adventure
+- [ ] A detailed readme describing stuff

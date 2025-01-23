@@ -2,6 +2,7 @@ package me.lumiafk.chattweaks.util
 
 import java.awt.Color
 
+// Catppuccin mocha color palette
 object ColorPalette {
 	val ROSEWATER = Color(0xf5e0dc)
 	val FLAMINGO = Color(0xf2cdcd)

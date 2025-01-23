@@ -4,7 +4,6 @@ import me.lumiafk.chattweaks.chat.ChatBox
 import me.lumiafk.chattweaks.chat.screens.Initializable
 import me.lumiafk.chattweaks.chat.screens.elements.AbstractWidget.Companion.BUTTON_HEIGHT
 import me.lumiafk.chattweaks.chat.screens.elements.AbstractWidget.Companion.INNER_PADDING
-import me.lumiafk.chattweaks.chat.screens.elements.AbstractWidget.Companion.OUTER_PADDING
 import me.lumiafk.chattweaks.chat.screens.elements.TransformerEntryList.AbstractEntry
 import me.lumiafk.chattweaks.chat.transformations.Transformer
 import me.lumiafk.chattweaks.chat.transformations.TransformerContext
@@ -29,7 +28,6 @@ import kotlin.math.abs
 
 class TransformerEntryList(y: Int, width: Int, height: Int, val chatBox: ChatBox, val parent: Screen) : ElementListWidget<AbstractEntry>(MinecraftClient.getInstance(), width, height, y, BUTTON_HEIGHT + INNER_PADDING), Initializable {
 	override fun init() {
-		setRenderHeader(true, client.textRenderer.fontHeight + OUTER_PADDING)
 		for (i in chatBox.transformers.indices) {
 			addEntry(ElementEntry(chatBox.transformers[i], this))
 			if (i != chatBox.transformers.lastIndex) addEntry(ArrowEntry)
@@ -41,7 +39,7 @@ class TransformerEntryList(y: Int, width: Int, height: Int, val chatBox: ChatBox
 
 	override fun getRowWidth(): Int = width
 	override fun getRowLeft(): Int = this.x
-	override fun getRowTop(index: Int): Int = this.y - scrollAmount.toInt() + index * this.itemHeight + this.headerHeight
+	override fun getRowTop(index: Int): Int = this.y - scrollY.toInt() + index * this.itemHeight + this.headerHeight
 
 	override fun renderHeader(context: DrawContext, x: Int, y: Int) {
 		context.drawCenteredTextWithShadow(client.textRenderer, "Transformers".literal(Formatting.BOLD), x + width / 2, y, 0xFFFFFF)
